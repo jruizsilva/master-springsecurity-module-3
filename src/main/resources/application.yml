@@ -1,0 +1,38 @@
+security:
+  jwt:
+    expiration-minutes: 30
+    secret-key: aG9sYTEyM2hvbGE0NTZjaGF1MTIzY2hhdTQ1Nnd0ZjEyM3d0ZjQ1Ng==
+spring:
+  profiles:
+    active: dev
+  main:
+    banner-mode: 'off'
+  output:
+    ansi:
+      enabled: always
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    password: admin
+    url: jdbc:postgresql://localhost:5432/masterspringsecurity
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    password: admin
+    url: jdbc:postgresql://localhost:5432/masterspringsecurity
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
