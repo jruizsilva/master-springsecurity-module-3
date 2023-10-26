@@ -1,12 +1,8 @@
 package masterspringsecurity.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import masterspringsecurity.common.util.Status;
-
-import java.math.BigDecimal;
 
 @Builder
 @AllArgsConstructor
@@ -15,23 +11,14 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 @Entity
-@Table(name = "products")
-public class ProductEntity {
+@Table(name = "categories")
+public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",
             nullable = false)
     private Long id;
-    @NotBlank
     private String name;
-
-    @DecimalMin(value = "0.01")
-    private BigDecimal price;
-
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private CategoryEntity category;
 }

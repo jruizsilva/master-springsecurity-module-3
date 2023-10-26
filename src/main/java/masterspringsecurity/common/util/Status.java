@@ -1,5 +1,5 @@
 package masterspringsecurity.common.util;
 
-public enum ProductStatus {
+public enum Status {
     ENABLED, DISABLED
 }

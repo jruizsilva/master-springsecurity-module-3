@@ -2,7 +2,7 @@ package masterspringsecurity.business.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.service.ProductService;
-import masterspringsecurity.common.util.ProductStatus;
+import masterspringsecurity.common.util.Status;
 import masterspringsecurity.domain.entity.ProductEntity;
 import masterspringsecurity.persistence.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity =
                 productRepository.findById(productId)
                                  .orElseThrow(() -> new RuntimeException("Product not found"));
-        productEntity.setStatus(ProductStatus.DISABLED);
+        productEntity.setStatus(Status.DISABLED);
         return productRepository.save(productEntity);
     }
 
