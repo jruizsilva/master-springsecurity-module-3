@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.facade.CategoryFacade;
 import masterspringsecurity.business.mapper.CategoryMapper;
 import masterspringsecurity.business.service.CategoryService;
+import masterspringsecurity.common.util.Status;
 import masterspringsecurity.domain.dto.category.CategoryDto;
 import masterspringsecurity.domain.dto.category.request.CategoryRequest;
 import masterspringsecurity.domain.entity.CategoryEntity;
@@ -38,6 +39,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
     @Override
     public CategoryDto create(CategoryRequest categoryRequest) {
         CategoryEntity categoryEntityToSave = categoryMapper.requestToEntity(categoryRequest);
+        categoryEntityToSave.setStatus(Status.ENABLED);
         CategoryEntity categoryEntitySaved = categoryService.save(categoryEntityToSave);
         return categoryMapper.entityToDto(categoryEntitySaved);
     }
@@ -45,9 +47,9 @@ public class CategoryFacadeImpl implements CategoryFacade {
     @Override
     public CategoryDto update(Long categoryId,
                               CategoryRequest categoryRequest) {
-        CategoryEntity categoryEntityToUpdate = categoryMapper.requestToEntity(categoryRequest);
-        categoryEntityToUpdate.setId(categoryId);
-        CategoryEntity categoryEntityUpdated = categoryService.save(categoryEntityToUpdate);
+
+        CategoryEntity categoryEntityUpdated = categoryService.update(categoryId,
+                                                                      categoryRequest);
         return categoryMapper.entityToDto(categoryEntityUpdated);
     }
 

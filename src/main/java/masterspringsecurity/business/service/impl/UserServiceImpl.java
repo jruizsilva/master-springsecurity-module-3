@@ -1,6 +1,7 @@
 package masterspringsecurity.business.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import masterspringsecurity.common.exception.ObjectNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
         authenticationManager.authenticate(authenticationToken);
         UserEntity userEntity =
                 userRepository.findByUsernameIgnoreCase(authenticationRequest.getUsername())
-                              .orElseThrow(() -> new RuntimeException("User not found"));
+                              .orElseThrow(() -> new ObjectNotFoundException("User not found"));
         String jwt = jwtService.generateToken(userEntity,
                                               generateExtraClaims(userEntity));
         return new AuthenticationResponse(jwt);

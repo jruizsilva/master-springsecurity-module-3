@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import masterspringsecurity.common.exception.ObjectNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext()
                                                      .getAuthentication() == null) {
             UserEntity userEntity = userRepository.findByUsernameIgnoreCase(username)
-                                                  .orElseThrow(() -> new RuntimeException("User not found"));
+                                                  .orElseThrow(() -> new ObjectNotFoundException("User not found"));
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(username,
                                                             null,

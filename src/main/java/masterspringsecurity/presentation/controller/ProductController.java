@@ -27,12 +27,6 @@ public class ProductController {
     private final ProductFacade productFacade;
     private final ProductRepository productRepository;
 
-    /*@PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> findAll() {
-        return ResponseEntity.ok(productFacade.findAll());
-    }*/
-
     @PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
     @GetMapping
     public ResponseEntity<Page<ProductDto>> findAll(@PageableDefault(size = 2)

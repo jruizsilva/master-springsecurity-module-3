@@ -2,7 +2,9 @@ package masterspringsecurity.business.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.service.CategoryService;
+import masterspringsecurity.common.exception.ObjectNotFoundException;
 import masterspringsecurity.common.util.Status;
+import masterspringsecurity.domain.dto.category.request.CategoryRequest;
 import masterspringsecurity.domain.entity.CategoryEntity;
 import masterspringsecurity.persistence.CategoryRepository;
 import org.springframework.data.domain.Page;
@@ -31,12 +33,21 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(categoryEntity);
     }
 
+    public CategoryEntity update(Long categoryId,
+                                 CategoryRequest categoryRequest) {
+        CategoryEntity categoryEntityFromDB =
+                categoryRepository.findById(categoryId)
+                                  .orElseThrow(() -> new ObjectNotFoundException("Category not found with id " + categoryId));
+        categoryEntityFromDB.setName(categoryRequest.getName());
+        return categoryRepository.save(categoryEntityFromDB);
+    }
+
     @Override
     public CategoryEntity disableOneById(Long categoryId) {
-        CategoryEntity categoryEntity =
+        CategoryEntity categoryEntityFromDB =
                 categoryRepository.findById(categoryId)
-                                  .orElseThrow(() -> new RuntimeException("Category not found"));
-        categoryEntity.setStatus(Status.DISABLED);
-        return categoryRepository.save(categoryEntity);
+                                  .orElseThrow(() -> new ObjectNotFoundException("Category not found"));
+        categoryEntityFromDB.setStatus(Status.DISABLED);
+        return categoryRepository.save(categoryEntityFromDB);
     }
 }

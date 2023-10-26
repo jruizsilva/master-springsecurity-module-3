@@ -1,6 +1,9 @@
 package masterspringsecurity.domain.dto.category.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
@@ -8,6 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class CategoryRequest {
+public class CategoryRequest implements Serializable {
+    @NotBlank
     private String name;
 }

@@ -25,12 +25,6 @@ import java.util.Map;
 public class CategoryController {
     private final CategoryFacade categoryFacade;
 
-    /*@PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> findAll() {
-        return ResponseEntity.ok(productFacade.findAll());
-    }*/
-
     @PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
     @GetMapping
     public ResponseEntity<Page<CategoryDto>> findAll(@PageableDefault(size = 2)

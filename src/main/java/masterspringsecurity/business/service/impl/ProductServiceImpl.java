@@ -2,25 +2,22 @@ package masterspringsecurity.business.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.service.ProductService;
+import masterspringsecurity.common.exception.ObjectNotFoundException;
 import masterspringsecurity.common.util.Status;
+import masterspringsecurity.domain.dto.product.request.ProductRequest;
+import masterspringsecurity.domain.entity.CategoryEntity;
 import masterspringsecurity.domain.entity.ProductEntity;
 import masterspringsecurity.persistence.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-
-    @Override
-    public List<ProductEntity> findAll() {
-        return productRepository.findAll();
-    }
 
     @Override
     public Page<ProductEntity> findAll(Pageable pageable) {
@@ -38,12 +35,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductEntity disableOneById(Long productId) {
-        ProductEntity productEntity =
+    public ProductEntity update(Long productId,
+                                ProductRequest productRequest) {
+        ProductEntity productEntityFromDB =
                 productRepository.findById(productId)
-                                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        productEntity.setStatus(Status.DISABLED);
-        return productRepository.save(productEntity);
+                                 .orElseThrow(() -> new ObjectNotFoundException("Product not found with id " + productId));
+
+        productEntityFromDB.setName(productRequest.getName());
+        productEntityFromDB.setPrice(productRequest.getPrice());
+
+        CategoryEntity categoryEntity = CategoryEntity.builder()
+                                                      .id(productRequest.getCategoryId())
+                                                      .build();
+        productEntityFromDB.setCategory(categoryEntity);
+        return productRepository.save(productEntityFromDB);
+    }
+
+    @Override
+    public ProductEntity disableOneById(Long productId) {
+        ProductEntity productEntityFromDB =
+                productRepository.findById(productId)
+                                 .orElseThrow(() -> new ObjectNotFoundException("Product not found with id " + productId));
+        productEntityFromDB.setStatus(Status.DISABLED);
+        return productRepository.save(productEntityFromDB);
     }
 
 }

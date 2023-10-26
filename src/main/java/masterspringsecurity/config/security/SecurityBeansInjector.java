@@ -1,6 +1,7 @@
 package masterspringsecurity.config.security;
 
 import lombok.RequiredArgsConstructor;
+import masterspringsecurity.common.exception.ObjectNotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -39,6 +40,6 @@ public class SecurityBeansInjector {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsernameIgnoreCase(username)
-                                         .orElseThrow(() -> new RuntimeException("User not found"));
+                                         .orElseThrow(() -> new ObjectNotFoundException("User not found"));
     }
 }

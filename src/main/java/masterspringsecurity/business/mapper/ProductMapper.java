@@ -11,6 +11,8 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProductMapper {
+    @Mapping(target = "category",
+             ignore = true)
     @Mapping(target = "status",
              ignore = true)
     @Mapping(target = "id",
