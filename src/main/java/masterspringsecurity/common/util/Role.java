@@ -10,9 +10,32 @@ import java.util.List;
 @Getter
 @ToString
 public enum Role {
-    CUSTOMER(List.of(Permission.READ_ALL_PRODUCTS)),
-    ADMINISTRATOR(List.of(Permission.READ_ALL_PRODUCTS,
-                          Permission.SAVE_ONE_PRODUCT));
+    ROLE_ADMINISTRATOR(List.of(
+            RolePermission.READ_ALL_PRODUCTS,
+            RolePermission.READ_ONE_PRODUCT,
+            RolePermission.CREATE_ONE_PRODUCT,
+            RolePermission.UPDATE_ONE_PRODUCT,
+            RolePermission.DISABLE_ONE_PRODUCT,
 
-    private final List<Permission> permissions;
+            RolePermission.READ_ALL_CATEGORIES,
+            RolePermission.READ_ONE_CATEGORY,
+            RolePermission.CREATE_ONE_CATEGORY,
+            RolePermission.UPDATE_ONE_CATEGORY,
+            RolePermission.DISABLE_ONE_CATEGORY,
+
+            RolePermission.READ_MY_PROFILE
+    )),
+    ROLE_ASSISTANT_ADMINISTRATOR(List.of(
+            RolePermission.READ_ALL_PRODUCTS,
+            RolePermission.READ_ONE_PRODUCT,
+            RolePermission.UPDATE_ONE_PRODUCT,
+
+            RolePermission.READ_ALL_CATEGORIES,
+            RolePermission.READ_ONE_CATEGORY,
+            RolePermission.UPDATE_ONE_CATEGORY,
+
+            RolePermission.READ_MY_PROFILE)),
+    ROLE_CUSTOMER(List.of(RolePermission.READ_MY_PROFILE));
+
+    private final List<RolePermission> rolePermissions;
 }

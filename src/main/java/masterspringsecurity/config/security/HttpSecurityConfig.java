@@ -1,7 +1,7 @@
 package masterspringsecurity.config.security;
 
 import lombok.RequiredArgsConstructor;
-import masterspringsecurity.common.util.Permission;
+import masterspringsecurity.common.util.RolePermission;
 import masterspringsecurity.config.security.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,10 +50,10 @@ public class HttpSecurityConfig {
             /* Protected resources*/
             authConfig.requestMatchers(HttpMethod.GET,
                                        "/products")
-                      .hasAuthority(Permission.READ_ALL_PRODUCTS.name());
+                      .hasAuthority(RolePermission.READ_ALL_PRODUCTS.name());
             authConfig.requestMatchers(HttpMethod.POST,
                                        "/products")
-                      .hasAuthority(Permission.SAVE_ONE_PRODUCT.name());
+                      .hasAuthority(RolePermission.SAVE_ONE_PRODUCT.name());
 
             authConfig.anyRequest()
                       .denyAll();

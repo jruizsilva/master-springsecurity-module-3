@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +35,12 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = role.getPermissions()
+        if (role == null) return Collections.emptyList();
+        if (role.getRolePermissions() == null) return Collections.emptyList();
+        List<GrantedAuthority> authorities = role.getRolePermissions()
                                                  .stream()
-                                                 .map(permissionEnum -> new SimpleGrantedAuthority(permissionEnum.name()))
+                                                 .map(Enum::name)
+                                                 .map(SimpleGrantedAuthority::new)
                                                  .collect(Collectors.toList());
         authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         return authorities;
