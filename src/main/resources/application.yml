@@ -23,6 +23,11 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+  data:
+    web:
+      pageable:
+        size-parameter: limit
+        page-parameter: p
 ---
 spring:
   config:
