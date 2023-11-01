@@ -1,6 +1,5 @@
 package masterspringsecurity.presentation.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.facade.ProductFacade;
@@ -12,13 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
@@ -62,7 +56,7 @@ public class ProductController {
         return ResponseEntity.ok(productFacade.disableOneById(productId));
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception e,
                                                                       HttpServletRequest request) {
         Map<String, String> apiError = new HashMap<>();
@@ -90,5 +84,5 @@ public class ProductController {
         return ResponseEntity.status(status)
                              .body(apiError);
 
-    }
+    }*/
 }

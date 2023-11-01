@@ -16,12 +16,13 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 public class ProductRequest implements Serializable {
-    @NotBlank
+    @NotBlank(message = "field name is required")
     private String name;
     @NotNull
-    @DecimalMin(value = "0.01")
+    @DecimalMin(value = "0.01",
+                message = "field price is required")
     private BigDecimal price;
-    @NotNull
+    @NotNull(message = "field categoryId is required")
     @Min(value = 1)
     private Long categoryId;
 }
