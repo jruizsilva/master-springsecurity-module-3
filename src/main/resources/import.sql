@@ -1,5 +1,8 @@
 INSERT INTO users (username, name, password, role) values ('user', 'soy user', '$2a$10$9WbwyMx3bzQFVJK.Z74M4OFlROF73OfeiN6es1xFtBKN2JDpMBwty', 'CUSTOMER');
 INSERT INTO users (username, name, password, role) values ('admin', 'soy admin', '$2a$10$9z/aOtoWP.wFE5HeuXD5H.ZnfAxxkiDUVIFikNOtcx8TgYY0kg6ve', 'ADMINISTRATOR');
+INSERT INTO users (username, name, password, role) VALUES ('lmarquez', 'luis márquez', '$2a$10$ywh1O2EwghHmFIMGeHgsx.9lMw5IXpg4jafeFS.Oi6nFv0181gHli', 'CUSTOMER');
+INSERT INTO users (username, name, password, role) VALUES ('asistente', 'soy asistant', '$2a$10$V29z7/qC9wpHfzRMxGOHye5RMAxCid2/MzJalk0dsiA3zZ9CJfub.', 'ASSISTANT_ADMINISTRATOR');
+INSERT INTO users (username, name, password, role) VALUES ('mhernandez', 'mengano hernández', '$2a$10$TMbMuEZ8utU5iq8MOoxpmOc6QWQuYuwgx1xJF8lSMNkKP3hIrwYFG', 'ADMINISTRATOR');
 
 -- CREACIÓN DE CATEGORIAS
 INSERT INTO categories (name, status) VALUES ('Electrónica', 'ENABLED');

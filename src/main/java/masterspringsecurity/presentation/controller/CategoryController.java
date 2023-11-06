@@ -25,13 +25,14 @@ import java.util.Map;
 public class CategoryController {
     private final CategoryFacade categoryFacade;
 
-    @PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
+    @PreAuthorize("hasAuthority('READ_ALL_CATEGORIES')")
     @GetMapping
     public ResponseEntity<Page<CategoryDto>> findAll(@PageableDefault(size = 2)
                                                      Pageable pageable) {
         return ResponseEntity.ok(categoryFacade.findAll(pageable));
     }
 
+    @PreAuthorize("hasAuthority('READ_ONE_CATEGORY')")
     @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> findById(@PathVariable Long categoryId) {
         return categoryFacade.findById(categoryId)
@@ -40,13 +41,14 @@ public class CategoryController {
                                                             .build());
     }
 
-    @PreAuthorize("hasAuthority('SAVE_ONE_PRODUCT')")
+    @PreAuthorize("hasAuthority('CREATE_ONE_CATEGORY')")
     @PostMapping
     public ResponseEntity<CategoryDto> create(@RequestBody @Valid CategoryRequest categoryRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(categoryFacade.create(categoryRequest));
     }
 
+    @PreAuthorize("hasAuthority('UPDATE_ONE_CATEGORY')")
     @PutMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> updateOneById(@PathVariable Long categoryId,
                                                      @RequestBody @Valid CategoryRequest categoryRequest) {
@@ -54,7 +56,7 @@ public class CategoryController {
                                                        categoryRequest));
     }
 
-    @PreAuthorize("hasAuthority('SAVE_ONE_PRODUCT')")
+    @PreAuthorize("hasAuthority('DISABLE_ONE_CATEGORY')")
     @PutMapping("/{categoryId}/disabled")
     public ResponseEntity<CategoryDto> disableOneById(@PathVariable Long categoryId) {
         return ResponseEntity.ok(categoryFacade.disableOneById(categoryId));

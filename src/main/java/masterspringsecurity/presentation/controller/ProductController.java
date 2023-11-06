@@ -28,6 +28,7 @@ public class ProductController {
         return ResponseEntity.ok(productFacade.findAll(pageable));
     }
 
+    @PreAuthorize("hasAuthority('READ_ONE_PRODUCT')")
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> findById(@PathVariable Long productId) {
         return productFacade.findById(productId)
@@ -36,13 +37,14 @@ public class ProductController {
                                                            .build());
     }
 
-    @PreAuthorize("hasAuthority('SAVE_ONE_PRODUCT')")
+    @PreAuthorize("hasAuthority('CREATE_ONE_PRODUCT')")
     @PostMapping
     public ResponseEntity<ProductDto> create(@RequestBody @Valid ProductRequest productRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(productFacade.create(productRequest));
     }
 
+    @PreAuthorize("hasAuthority('UPDATE_ONE_PRODUCT')")
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> updateOneById(@PathVariable Long productId,
                                                     @RequestBody @Valid ProductRequest productRequest) {
@@ -50,7 +52,7 @@ public class ProductController {
                                                       productRequest));
     }
 
-    @PreAuthorize("hasAuthority('SAVE_ONE_PRODUCT')")
+    @PreAuthorize("hasAuthority('DISABLE_ONE_PRODUCT')")
     @PutMapping("/{productId}/disabled")
     public ResponseEntity<ProductDto> disableOneById(@PathVariable Long productId) {
         return ResponseEntity.ok(productFacade.disableOneById(productId));

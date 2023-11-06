@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Builder
 @Getter
 @AllArgsConstructor
-public class AuthenticationResponse {
-    private String token;
+public class AuthenticationResponse implements Serializable {
+    private String jwt;
 }
