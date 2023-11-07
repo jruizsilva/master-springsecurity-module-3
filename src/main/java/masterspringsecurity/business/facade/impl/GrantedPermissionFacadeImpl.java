@@ -17,4 +17,9 @@ public class GrantedPermissionFacadeImpl implements GrantedPermissionFacade {
     public Page<GrantedPermissionEntity> findAll(Pageable pageable) {
         return grantedPermissionService.findAll(pageable);
     }
+
+    @Override
+    public GrantedPermissionEntity findById(Long permissionId) {
+        return grantedPermissionService.findById(permissionId);
+    }
 }

@@ -3,7 +3,7 @@ INSERT INTO modules (name, base_path) VALUES ('PRODUCT', '/products');
 INSERT INTO modules (name, base_path) VALUES ('CATEGORY', '/categories');
 INSERT INTO modules (name, base_path) VALUES ('CUSTOMER', '/customers');
 INSERT INTO modules (name, base_path) VALUES ('AUTH', '/auth');
-INSERT INTO modules (name, base_path) VALUES ('GRANTED_PERMISSION', '/permissions');
+INSERT INTO modules (name, base_path) VALUES ('GRANTED_PERMISSION', '/granted-permissions');
 
 -- CREACION DE OPERACIONES
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PRODUCTS','', 'GET', false, 1);
@@ -26,6 +26,7 @@ INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES (
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
 
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PERMISSIONS','','GET', true, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_PERMISSION','/[0-9]*','GET', true, 5);
 
 -- CREACIÓN DE ROLES
 INSERT INTO roles (name) VALUES ('CUSTOMER');
@@ -55,9 +56,9 @@ INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 9);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 10);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 15);
 
-INSERT INTO users (username, name, password, role_id) values ('user', 'soy user', '$2a$10$9WbwyMx3bzQFVJK.Z74M4OFlROF73OfeiN6es1xFtBKN2JDpMBwty', 1);
+INSERT INTO users (username, name, password, role_id) VALUES ('user', 'soy user', '$2a$10$9WbwyMx3bzQFVJK.Z74M4OFlROF73OfeiN6es1xFtBKN2JDpMBwty', 1);
 INSERT INTO users (username, name, password, role_id) VALUES ('asistente', 'luis márquez', '$2a$10$URTy2dbSE09TF3fAFL2myOcKxEtLdklh6g7hRVcmkAoZMmtOZE/C2',2);
-INSERT INTO users (username, name, password, role_id) values ('admin', 'soy admin', '$2a$10$9z/aOtoWP.wFE5HeuXD5H.ZnfAxxkiDUVIFikNOtcx8TgYY0kg6ve',3);
+INSERT INTO users (username, name, password, role_id) VALUES ('admin', 'soy admin', '$2a$10$9z/aOtoWP.wFE5HeuXD5H.ZnfAxxkiDUVIFikNOtcx8TgYY0kg6ve',3);
 
 -- CREACIÓN DE CATEGORIAS
 INSERT INTO categories (name, status) VALUES ('Electrónica', 'ENABLED');

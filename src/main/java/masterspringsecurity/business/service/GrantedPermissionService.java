@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface GrantedPermissionService {
     Page<GrantedPermissionEntity> findAll(Pageable pageable);
+    GrantedPermissionEntity findById(Long permissionId);
 }
