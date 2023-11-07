@@ -3,6 +3,7 @@ INSERT INTO modules (name, base_path) VALUES ('PRODUCT', '/products');
 INSERT INTO modules (name, base_path) VALUES ('CATEGORY', '/categories');
 INSERT INTO modules (name, base_path) VALUES ('CUSTOMER', '/customers');
 INSERT INTO modules (name, base_path) VALUES ('AUTH', '/auth');
+INSERT INTO modules (name, base_path) VALUES ('GRANTED_PERMISSION', '/permissions');
 
 -- CREACION DE OPERACIONES
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PRODUCTS','', 'GET', false, 1);
@@ -23,6 +24,8 @@ INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES (
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('AUTHENTICATE','/login', 'POST', true, 4);
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', true, 4);
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
+
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PERMISSIONS','','GET', true, 5);
 
 -- CREACIÓN DE ROLES
 INSERT INTO roles (name) VALUES ('CUSTOMER');

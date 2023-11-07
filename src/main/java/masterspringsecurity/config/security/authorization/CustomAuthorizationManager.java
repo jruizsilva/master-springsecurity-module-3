@@ -52,10 +52,11 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
             throw new AuthenticationCredentialsNotFoundException("User not logged in");
         }
         List<OperationEntity> operationEntityList = obtainedOperations(authentication);
-
-        return operationEntityList.stream()
-                                  .anyMatch(getOperationEntityPredicate(url,
-                                                                        httpMethod));
+        boolean isGranted = operationEntityList.stream()
+                                               .anyMatch(getOperationEntityPredicate(url,
+                                                                                     httpMethod));
+        System.out.println(isGranted);
+        return isGranted;
     }
 
     private static Predicate<OperationEntity> getOperationEntityPredicate(String url,
