@@ -1,8 +1,7 @@
-package masterspringsecurity.domain.entity;
+package masterspringsecurity.domain.entity.security;
 
 import jakarta.persistence.*;
 import lombok.*;
-import masterspringsecurity.common.util.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,19 +30,21 @@ public class UserEntity implements UserDetails {
     private String name;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (role == null) return Collections.emptyList();
-        if (role.getRolePermissions() == null) return Collections.emptyList();
-        List<GrantedAuthority> authorities = role.getRolePermissions()
+        if (role.getPermissionList() == null) return Collections.emptyList();
+        List<GrantedAuthority> authorities = role.getPermissionList()
                                                  .stream()
-                                                 .map(Enum::name)
+                                                 .map(GrantedPermissionEntity::getOperation)
+                                                 .map(OperationEntity::getName)
                                                  .map(SimpleGrantedAuthority::new)
                                                  .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         return authorities;
     }
 

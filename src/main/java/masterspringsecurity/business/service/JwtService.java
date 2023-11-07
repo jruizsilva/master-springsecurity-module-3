@@ -2,7 +2,7 @@ package masterspringsecurity.business.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import masterspringsecurity.domain.entity.UserEntity;
+import masterspringsecurity.domain.entity.security.UserEntity;
 
 import java.util.Map;
 

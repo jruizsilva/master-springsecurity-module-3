@@ -1,6 +1,6 @@
-package masterspringsecurity.persistence;
+package masterspringsecurity.persistence.security;
 
-import masterspringsecurity.domain.entity.UserEntity;
+import masterspringsecurity.domain.entity.security.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

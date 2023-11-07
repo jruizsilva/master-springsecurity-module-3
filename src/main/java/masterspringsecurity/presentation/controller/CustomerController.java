@@ -2,7 +2,7 @@ package masterspringsecurity.presentation.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import masterspringsecurity.business.service.impl.AuthenticationServiceImpl;
+import masterspringsecurity.business.facade.UserFacade;
 import masterspringsecurity.domain.dto.user.RegisteredUserDto;
 import masterspringsecurity.domain.dto.user.request.SaveUserRequest;
 import org.springframework.http.HttpStatus;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    private final AuthenticationServiceImpl authenticationService;
+    private final UserFacade userFacade;
 
     @PostMapping
-    public ResponseEntity<RegisteredUserDto> registerOne(@RequestBody @Valid final SaveUserRequest newUser) {
-        RegisteredUserDto registeredUserDto = authenticationService.registerOneCustomer(newUser);
+    public ResponseEntity<RegisteredUserDto> registerOneCustomer(@RequestBody @Valid final SaveUserRequest newUser) {
+        RegisteredUserDto registeredUserDto = userFacade.registerOneCustomer(newUser);
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(registeredUserDto);
     }

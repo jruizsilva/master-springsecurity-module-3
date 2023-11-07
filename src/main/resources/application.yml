@@ -1,4 +1,6 @@
 security:
+  default:
+    role: CUSTOMER
   jwt:
     expiration-in-minutes: 30
     secret-key: aG9sYTEyM2hvbGE0NTZjaGF1MTIzY2hhdTQ1Nnd0ZjEyM3d0ZjQ1Ng==

@@ -1,14 +1,14 @@
 package masterspringsecurity.business.service;
 
 import masterspringsecurity.domain.dto.user.AuthenticationResponse;
+import masterspringsecurity.domain.dto.user.RegisteredUserDto;
 import masterspringsecurity.domain.dto.user.request.AuthenticationRequest;
 import masterspringsecurity.domain.dto.user.request.SaveUserRequest;
-import masterspringsecurity.domain.entity.UserEntity;
-
-import java.util.Optional;
+import masterspringsecurity.domain.entity.security.UserEntity;
 
 public interface UserService {
     AuthenticationResponse login(AuthenticationRequest authenticationRequest);
-    UserEntity registerOneCustomer(SaveUserRequest newUser);
-    Optional<UserEntity> findOneByUsername(String username);
+    RegisteredUserDto registerOneCustomer(SaveUserRequest newUser);
+    boolean validateToken(String jwt);
+    UserEntity findLoggedInUser();
 }

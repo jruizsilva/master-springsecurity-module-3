@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
-import masterspringsecurity.common.util.Role;
+import masterspringsecurity.common.util.RoleEnum;
 
 @Builder
 @AllArgsConstructor
@@ -24,5 +24,5 @@ public class UserDto {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private RoleEnum roleEnum;
 }

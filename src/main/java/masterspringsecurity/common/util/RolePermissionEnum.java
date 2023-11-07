@@ -1,6 +1,6 @@
 package masterspringsecurity.common.util;
 
-public enum RolePermission {
+public enum RolePermissionEnum {
     READ_ALL_PRODUCTS,
     READ_ONE_PRODUCT,
     CREATE_ONE_PRODUCT,

@@ -1,8 +1,60 @@
-INSERT INTO users (username, name, password, role) values ('user', 'soy user', '$2a$10$9WbwyMx3bzQFVJK.Z74M4OFlROF73OfeiN6es1xFtBKN2JDpMBwty', 'CUSTOMER');
-INSERT INTO users (username, name, password, role) values ('admin', 'soy admin', '$2a$10$9z/aOtoWP.wFE5HeuXD5H.ZnfAxxkiDUVIFikNOtcx8TgYY0kg6ve', 'ADMINISTRATOR');
-INSERT INTO users (username, name, password, role) VALUES ('lmarquez', 'luis márquez', '$2a$10$ywh1O2EwghHmFIMGeHgsx.9lMw5IXpg4jafeFS.Oi6nFv0181gHli', 'CUSTOMER');
-INSERT INTO users (username, name, password, role) VALUES ('asistente', 'soy asistant', '$2a$10$V29z7/qC9wpHfzRMxGOHye5RMAxCid2/MzJalk0dsiA3zZ9CJfub.', 'ASSISTANT_ADMINISTRATOR');
-INSERT INTO users (username, name, password, role) VALUES ('mhernandez', 'mengano hernández', '$2a$10$TMbMuEZ8utU5iq8MOoxpmOc6QWQuYuwgx1xJF8lSMNkKP3hIrwYFG', 'ADMINISTRATOR');
+-- CREACIÓN DE MODULOS
+INSERT INTO modules (name, base_path) VALUES ('PRODUCT', '/products');
+INSERT INTO modules (name, base_path) VALUES ('CATEGORY', '/categories');
+INSERT INTO modules (name, base_path) VALUES ('CUSTOMER', '/customers');
+INSERT INTO modules (name, base_path) VALUES ('AUTH', '/auth');
+
+-- CREACION DE OPERACIONES
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PRODUCTS','', 'GET', false, 1);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_PRODUCT','/[0-9]*', 'GET', false, 1);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('CREATE_ONE_PRODUCT','', 'POST', false, 1);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('UPDATE_ONE_PRODUCT','/[0-9]*', 'PUT', false, 1);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('DISABLE_ONE_PRODUCT','/[0-9]*/disabled', 'PUT', false, 1);
+
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_CATEGORIES','', 'GET', false, 2);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_CATEGORY','/[0-9]*', 'GET', false, 2);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('CREATE_ONE_CATEGORY','', 'POST', false, 2);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('UPDATE_ONE_CATEGORY','/[0-9]*', 'PUT', false, 2);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('DISABLE_ONE_CATEGORY','/[0-9]*/disabled', 'PUT', false, 2);
+
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_CUSTOMERS','', 'GET', false, 3);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('REGISTER_ONE','', 'POST', true, 3);
+
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('AUTHENTICATE','/login', 'POST', true, 4);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', true, 4);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
+
+-- CREACIÓN DE ROLES
+INSERT INTO roles (name) VALUES ('CUSTOMER');
+INSERT INTO roles (name) VALUES ('ASSISTANT_ADMINISTRATOR');
+INSERT INTO roles (name) VALUES ('ADMINISTRATOR');
+
+-- CREACIÓN DE PERMISOS
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (1, 15);
+
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 1);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 2);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 4);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 6);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 7);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 9);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (2, 15);
+
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 1);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 2);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 3);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 4);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 5);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 6);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 7);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 8);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 9);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 10);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 15);
+
+INSERT INTO users (username, name, password, role_id) values ('user', 'soy user', '$2a$10$9WbwyMx3bzQFVJK.Z74M4OFlROF73OfeiN6es1xFtBKN2JDpMBwty', 1);
+INSERT INTO users (username, name, password, role_id) VALUES ('asistente', 'luis márquez', '$2a$10$URTy2dbSE09TF3fAFL2myOcKxEtLdklh6g7hRVcmkAoZMmtOZE/C2',2);
+INSERT INTO users (username, name, password, role_id) values ('admin', 'soy admin', '$2a$10$9z/aOtoWP.wFE5HeuXD5H.ZnfAxxkiDUVIFikNOtcx8TgYY0kg6ve',3);
 
 -- CREACIÓN DE CATEGORIAS
 INSERT INTO categories (name, status) VALUES ('Electrónica', 'ENABLED');

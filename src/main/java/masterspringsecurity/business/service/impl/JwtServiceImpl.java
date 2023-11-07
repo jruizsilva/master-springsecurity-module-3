@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import masterspringsecurity.business.service.JwtService;
-import masterspringsecurity.domain.entity.UserEntity;
+import masterspringsecurity.domain.entity.security.UserEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -51,6 +51,7 @@ public class JwtServiceImpl implements JwtService {
     public String generateTokenv2(UserDetails userEntity,
                                   Map<String, Object> extraClaims) {
         Date issuedAt = new Date(System.currentTimeMillis());
+        /*60000ms = 1min*/
         Date expiration = new Date(issuedAt.getTime() + EXPIRATION_IN_MINUTES * 60000);
         return Jwts.builder()
                    .header()

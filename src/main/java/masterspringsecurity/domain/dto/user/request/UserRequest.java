@@ -4,7 +4,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import masterspringsecurity.common.util.Role;
+import masterspringsecurity.common.util.RoleEnum;
 
 @Builder
 @AllArgsConstructor
@@ -21,5 +21,5 @@ public class UserRequest {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private RoleEnum roleEnum;
 }

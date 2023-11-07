@@ -2,7 +2,7 @@ package masterspringsecurity.config.security;
 
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.common.exception.ObjectNotFoundException;
-import masterspringsecurity.persistence.UserRepository;
+import masterspringsecurity.persistence.security.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
