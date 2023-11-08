@@ -7,7 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.service.JwtService;
 import masterspringsecurity.common.exception.ObjectNotFoundException;
+import masterspringsecurity.domain.entity.security.JwtTokenEntity;
 import masterspringsecurity.domain.entity.security.UserEntity;
+import masterspringsecurity.persistence.security.JwtTokenRepository;
 import masterspringsecurity.persistence.security.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,12 +20,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final JwtTokenRepository jwtTokenRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -31,6 +36,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwt = jwtService.extractJwtFromRequest(request);
         if (!StringUtils.hasText(jwt)) {
+            filterChain.doFilter(request,
+                                 response);
+            return;
+        }
+        Optional<JwtTokenEntity> jwtTokenEntityOptional = jwtTokenRepository.findByToken(jwt);
+        boolean isValid = validateToken(jwtTokenEntityOptional);
+        if (!isValid) {
             filterChain.doFilter(request,
                                  response);
             return;
@@ -52,5 +64,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,
                              response);
 
+    }
+
+    private boolean validateToken(Optional<JwtTokenEntity> jwtTokenEntityOptional) {
+        if (jwtTokenEntityOptional.isEmpty()) {
+            logger.error("Token not exists in database");
+            return false;
+        }
+        JwtTokenEntity jwtTokenEntity = jwtTokenEntityOptional.get();
+        Date now = new Date(System.currentTimeMillis());
+        boolean isValid = jwtTokenEntity.getIsValid() && jwtTokenEntity.getExpirationDate()
+                                                                       .after(now);
+        if (!isValid) {
+            logger.error("Token is not valid");
+            updateTokenStatus(jwtTokenEntity);
+        }
+        return isValid;
+    }
+
+    private void updateTokenStatus(JwtTokenEntity jwtTokenEntity) {
+        jwtTokenEntity.setIsValid(false);
+        jwtTokenRepository.save(jwtTokenEntity);
     }
 }
