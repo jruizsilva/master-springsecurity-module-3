@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -133,12 +134,15 @@ public class UserServiceImpl implements UserService {
     public void logout(HttpServletRequest request) {
         String jwt = jwtService.extractJwtFromRequest(request);
         if (!StringUtils.hasText(jwt)) {
-            throw new ObjectNotFoundException("Token not found in request");
+            return;
         }
-        JwtTokenEntity jwtTokenEntity =
-                jwtTokenRepository.findByToken(jwt)
-                                  .orElseThrow(() -> new ObjectNotFoundException("Token not found"));
-        if (jwtTokenEntity.getIsValid()) {
+        Optional<JwtTokenEntity> jwtTokenEntityOptional =
+                jwtTokenRepository.findByToken(jwt);
+        if (jwtTokenEntityOptional.isEmpty()) {
+            return;
+        }
+        JwtTokenEntity jwtTokenEntity = jwtTokenEntityOptional.get();
+        if (Boolean.TRUE.equals(jwtTokenEntity.getIsValid())) {
             jwtTokenEntity.setIsValid(false);
             jwtTokenRepository.save(jwtTokenEntity);
         }
