@@ -1,10 +1,13 @@
 package masterspringsecurity.business.facade;
 
-import masterspringsecurity.domain.entity.security.GrantedPermissionEntity;
+import masterspringsecurity.domain.dto.grantedpermission.GrantedPermissionDto;
+import masterspringsecurity.domain.dto.grantedpermission.request.GrantedPermissionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface GrantedPermissionFacade {
-    Page<GrantedPermissionEntity> findAll(Pageable pageable);
-    GrantedPermissionEntity findById(Long permissionId);
+    Page<GrantedPermissionDto> findAll(Pageable pageable);
+    GrantedPermissionDto findById(Long permissionId);
+    Void deleteOneById(Long permissionId);
+    GrantedPermissionDto createOne(GrantedPermissionRequest grantedPermissionRequest);
 }

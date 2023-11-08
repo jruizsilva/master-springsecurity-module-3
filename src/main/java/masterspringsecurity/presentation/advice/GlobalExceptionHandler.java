@@ -1,6 +1,7 @@
 package masterspringsecurity.presentation.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
+import masterspringsecurity.common.exception.ObjectNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,21 @@ import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> handleObjectNotFoundException(ObjectNotFoundException e,
+                                                           HttpServletRequest request) {
+        ApiError apiError = ApiError.builder()
+                                    .backendMessage(e.getLocalizedMessage())
+                                    .message("Objeto no encontrado")
+                                    .url(request.getRequestURL()
+                                                .toString())
+                                    .method(request.getMethod())
+                                    .timestamp(LocalDateTime.now())
+                                    .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body(apiError);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception e,
                                                     HttpServletRequest request) {

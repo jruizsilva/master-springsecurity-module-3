@@ -17,7 +17,7 @@ public class OperationEntity {
     @Column(name = "id",
             nullable = false)
     private Long id;
-
+    @Column(unique = true)
     private String name;
     private String path;
     private String httpMethod;

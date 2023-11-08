@@ -27,6 +27,8 @@ INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES (
 
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PERMISSIONS','','GET', true, 5);
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_PERMISSION','/[0-9]*','GET', true, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('DELETE_ONE_PERMISSION','/[0-9]*','DELETE', true, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('CREATE_ONE_PERMISSION','','POST', true, 5);
 
 -- CREACIÓN DE ROLES
 INSERT INTO roles (name) VALUES ('CUSTOMER');

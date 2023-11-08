@@ -2,14 +2,12 @@ package masterspringsecurity.presentation.controller;
 
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.facade.GrantedPermissionFacade;
-import masterspringsecurity.domain.entity.security.GrantedPermissionEntity;
+import masterspringsecurity.domain.dto.grantedpermission.GrantedPermissionDto;
+import masterspringsecurity.domain.dto.grantedpermission.request.GrantedPermissionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/granted-permissions")
@@ -18,12 +16,22 @@ public class GrantedPermissionController {
     private final GrantedPermissionFacade grantedPermissionFacade;
 
     @GetMapping
-    public ResponseEntity<Page<GrantedPermissionEntity>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<GrantedPermissionDto>> findAll(Pageable pageable) {
         return ResponseEntity.ok(grantedPermissionFacade.findAll(pageable));
     }
 
     @GetMapping("/{permissionId}")
-    public ResponseEntity<GrantedPermissionEntity> findById(@PathVariable Long permissionId) {
+    public ResponseEntity<GrantedPermissionDto> findById(@PathVariable Long permissionId) {
         return ResponseEntity.ok(grantedPermissionFacade.findById(permissionId));
+    }
+
+    @PostMapping
+    public ResponseEntity<GrantedPermissionDto> createOne(@RequestBody GrantedPermissionRequest grantedPermissionRequest) {
+        return ResponseEntity.ok(grantedPermissionFacade.createOne(grantedPermissionRequest));
+    }
+
+    @DeleteMapping("/{permissionId}")
+    public ResponseEntity<Void> deleteOneById(@PathVariable Long permissionId) {
+        return ResponseEntity.ok(grantedPermissionFacade.deleteOneById(permissionId));
     }
 }

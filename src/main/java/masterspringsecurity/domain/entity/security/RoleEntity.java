@@ -20,6 +20,7 @@ public class RoleEntity {
     @Column(name = "id",
             nullable = false)
     private Long id;
+    @Column(unique = true)
     private String name;
     @JsonIgnore
     @OneToMany(mappedBy = "role",
