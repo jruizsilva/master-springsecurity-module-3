@@ -1,5 +1,6 @@
 package masterspringsecurity.business.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import masterspringsecurity.domain.dto.user.AuthenticationResponse;
 import masterspringsecurity.domain.dto.user.RegisteredUserDto;
 import masterspringsecurity.domain.dto.user.request.AuthenticationRequest;
@@ -11,4 +12,5 @@ public interface UserService {
     RegisteredUserDto registerOneCustomer(SaveUserRequest newUser);
     boolean validateToken(String jwt);
     UserEntity findLoggedInUser();
+    void logout(HttpServletRequest request);
 }

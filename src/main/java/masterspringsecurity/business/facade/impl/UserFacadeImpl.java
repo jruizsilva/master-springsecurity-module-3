@@ -1,9 +1,11 @@
 package masterspringsecurity.business.facade.impl;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.facade.UserFacade;
 import masterspringsecurity.business.service.UserService;
 import masterspringsecurity.domain.dto.user.AuthenticationResponse;
+import masterspringsecurity.domain.dto.user.LogoutResponse;
 import masterspringsecurity.domain.dto.user.RegisteredUserDto;
 import masterspringsecurity.domain.dto.user.request.AuthenticationRequest;
 import masterspringsecurity.domain.dto.user.request.SaveUserRequest;
@@ -33,5 +35,11 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public UserEntity findLoggedInUser() {
         return userService.findLoggedInUser();
+    }
+
+    @Override
+    public LogoutResponse logout(HttpServletRequest request) {
+        userService.logout(request);
+        return new LogoutResponse("Logout success");
     }
 }

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import masterspringsecurity.business.service.JwtService;
 import masterspringsecurity.domain.entity.security.UserEntity;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +65,20 @@ public class JwtServiceImpl implements JwtService {
                    .signWith(generateKey(),
                              Jwts.SIG.HS256)
                    .compact();
+    }
+
+    @Override
+    public String extractJwtFromRequest(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return null;
+        }
+        return authorizationHeader.substring(7);
+    }
+
+    @Override
+    public Date getExpirationDateFromToken(String jwt) {
+        return extractAllClaims(jwt).getExpiration();
     }
 
     private Claims extractAllClaims(String token) {

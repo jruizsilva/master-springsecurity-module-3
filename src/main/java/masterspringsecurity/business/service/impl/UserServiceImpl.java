@@ -1,5 +1,6 @@
 package masterspringsecurity.business.service.impl;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.service.JwtService;
 import masterspringsecurity.business.service.RoleService;
@@ -10,14 +11,17 @@ import masterspringsecurity.domain.dto.user.AuthenticationResponse;
 import masterspringsecurity.domain.dto.user.RegisteredUserDto;
 import masterspringsecurity.domain.dto.user.request.AuthenticationRequest;
 import masterspringsecurity.domain.dto.user.request.SaveUserRequest;
+import masterspringsecurity.domain.entity.security.JwtTokenEntity;
 import masterspringsecurity.domain.entity.security.RoleEntity;
 import masterspringsecurity.domain.entity.security.UserEntity;
+import masterspringsecurity.persistence.security.JwtTokenRepository;
 import masterspringsecurity.persistence.security.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final JwtTokenRepository jwtTokenRepository;
 
     @Override
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
@@ -42,7 +47,20 @@ public class UserServiceImpl implements UserService {
                               .orElseThrow(() -> new ObjectNotFoundException("User not found"));
         String jwt = jwtService.generateTokenv2(userEntity,
                                                 generateExtraClaims(userEntity));
+        saveUserToken(jwt,
+                      userEntity);
         return new AuthenticationResponse(jwt);
+    }
+
+    private void saveUserToken(String jwt,
+                               UserEntity userEntity) {
+        JwtTokenEntity jwtTokenEntity = JwtTokenEntity.builder()
+                                                      .token(jwt)
+                                                      .user(userEntity)
+                                                      .expirationDate(jwtService.getExpirationDateFromToken(jwt))
+                                                      .isValid(true)
+                                                      .build();
+        jwtTokenRepository.save(jwtTokenEntity);
     }
 
     @Override
@@ -50,22 +68,24 @@ public class UserServiceImpl implements UserService {
         validatePassword(newUser);
         RoleEntity defaultRole = roleService.findDefaultRole()
                                             .orElseThrow(() -> new ObjectNotFoundException("Role not found"));
-        UserEntity userEntity =
+        UserEntity userEntityToSave =
                 UserEntity.builder()
                           .username(newUser.getUsername())
                           .password(passwordEncoder.encode(newUser.getPassword()))
                           .name(newUser.getName())
                           .role(defaultRole)
                           .build();
-        UserEntity userEntitySaved = userRepository.save(userEntity);
+        UserEntity userEntitySaved = userRepository.save(userEntityToSave);
         String jwt = jwtService.generateTokenv2(userEntitySaved,
-                                                generateExtraClaims(userEntity));
+                                                generateExtraClaims(userEntityToSave));
+        saveUserToken(jwt,
+                      userEntitySaved);
         return RegisteredUserDto.builder()
-                                .id(userEntity.getId())
-                                .username(userEntity.getUsername())
-                                .name(userEntity.getName())
-                                .role(userEntity.getRole()
-                                                .getName())
+                                .id(userEntitySaved.getId())
+                                .username(userEntitySaved.getUsername())
+                                .name(userEntitySaved.getName())
+                                .role(userEntitySaved.getRole()
+                                                     .getName())
                                 .jwt(jwt)
                                 .build();
     }
@@ -107,5 +127,20 @@ public class UserServiceImpl implements UserService {
         String username = (String) auth.getPrincipal();
         return userRepository.findByUsernameIgnoreCase(username)
                              .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        String jwt = jwtService.extractJwtFromRequest(request);
+        if (!StringUtils.hasText(jwt)) {
+            throw new ObjectNotFoundException("Token not found in request");
+        }
+        JwtTokenEntity jwtTokenEntity =
+                jwtTokenRepository.findByToken(jwt)
+                                  .orElseThrow(() -> new ObjectNotFoundException("Token not found"));
+        if (jwtTokenEntity.getIsValid()) {
+            jwtTokenEntity.setIsValid(false);
+            jwtTokenRepository.save(jwtTokenEntity);
+        }
     }
 }

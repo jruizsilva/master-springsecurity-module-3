@@ -1,9 +1,11 @@
 package masterspringsecurity.presentation.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.facade.UserFacade;
 import masterspringsecurity.domain.dto.user.AuthenticationResponse;
+import masterspringsecurity.domain.dto.user.LogoutResponse;
 import masterspringsecurity.domain.dto.user.request.AuthenticationRequest;
 import masterspringsecurity.domain.entity.security.UserEntity;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +37,10 @@ public class AuthenticationController {
     public ResponseEntity<UserEntity> findMyProfile() {
         UserEntity userEntity = userFacade.findLoggedInUser();
         return ResponseEntity.ok(userEntity);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponse> logout(HttpServletRequest  request) {
+        return ResponseEntity.ok(userFacade.logout(request));
     }
 }

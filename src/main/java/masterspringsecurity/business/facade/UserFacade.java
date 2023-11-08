@@ -1,6 +1,8 @@
 package masterspringsecurity.business.facade;
 
+import jakarta.servlet.http.HttpServletRequest;
 import masterspringsecurity.domain.dto.user.AuthenticationResponse;
+import masterspringsecurity.domain.dto.user.LogoutResponse;
 import masterspringsecurity.domain.dto.user.RegisteredUserDto;
 import masterspringsecurity.domain.dto.user.request.AuthenticationRequest;
 import masterspringsecurity.domain.dto.user.request.SaveUserRequest;
@@ -11,4 +13,5 @@ public interface UserFacade {
     RegisteredUserDto registerOneCustomer(SaveUserRequest newUser);
     boolean validateToken(String jwt);
     UserEntity findLoggedInUser();
+    LogoutResponse logout(HttpServletRequest request);
 }
