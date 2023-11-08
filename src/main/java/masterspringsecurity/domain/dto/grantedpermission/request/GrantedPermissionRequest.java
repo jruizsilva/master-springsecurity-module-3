@@ -1,6 +1,9 @@
 package masterspringsecurity.domain.dto.grantedpermission.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
@@ -8,7 +11,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class GrantedPermissionRequest {
+public class GrantedPermissionRequest implements Serializable {
+    @NotBlank
     private String roleName;
+    @NotBlank
     private String permissionName;
 }

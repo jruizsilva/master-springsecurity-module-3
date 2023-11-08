@@ -1,5 +1,6 @@
 package masterspringsecurity.presentation.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.business.facade.GrantedPermissionFacade;
 import masterspringsecurity.domain.dto.grantedpermission.GrantedPermissionDto;
@@ -26,7 +27,7 @@ public class GrantedPermissionController {
     }
 
     @PostMapping
-    public ResponseEntity<GrantedPermissionDto> createOne(@RequestBody GrantedPermissionRequest grantedPermissionRequest) {
+    public ResponseEntity<GrantedPermissionDto> createOne(@Valid @RequestBody GrantedPermissionRequest grantedPermissionRequest) {
         return ResponseEntity.ok(grantedPermissionFacade.createOne(grantedPermissionRequest));
     }
 
