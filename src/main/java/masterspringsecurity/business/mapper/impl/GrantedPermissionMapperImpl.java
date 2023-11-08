@@ -10,6 +10,7 @@ public class GrantedPermissionMapperImpl implements GrantedPermissionMapper {
     @Override
     public GrantedPermissionDto entityToDto(GrantedPermissionEntity grantedPermissionEntity) {
         return GrantedPermissionDto.builder()
+                                   .id(grantedPermissionEntity.getId())
                                    .role(grantedPermissionEntity.getRole()
                                                                 .getName())
                                    .module(grantedPermissionEntity.getOperation()

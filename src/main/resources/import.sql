@@ -25,10 +25,10 @@ INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES (
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', true, 4);
 INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_MY_PROFILE','/profile','GET', false, 4);
 
-INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PERMISSIONS','','GET', true, 5);
-INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_PERMISSION','/[0-9]*','GET', true, 5);
-INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('DELETE_ONE_PERMISSION','/[0-9]*','DELETE', true, 5);
-INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('CREATE_ONE_PERMISSION','','POST', true, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ALL_PERMISSIONS','','GET', false, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_PERMISSION','/[0-9]*','GET', false, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('DELETE_ONE_PERMISSION','/[0-9]*','DELETE', false, 5);
+INSERT INTO operations (name, path, http_method, permit_all, module_id) VALUES ('CREATE_ONE_PERMISSION','','POST', false, 5);
 
 -- CREACIÓN DE ROLES
 INSERT INTO roles (name) VALUES ('CUSTOMER');
@@ -57,6 +57,10 @@ INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 8);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 9);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 10);
 INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 15);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 16);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 17);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 18);
+INSERT INTO granted_permissions (role_id, operation_id) VALUES (3, 19);
 
 INSERT INTO users (username, name, password, role_id) VALUES ('user', 'soy user', '$2a$10$9WbwyMx3bzQFVJK.Z74M4OFlROF73OfeiN6es1xFtBKN2JDpMBwty', 1);
 INSERT INTO users (username, name, password, role_id) VALUES ('asistente', 'luis márquez', '$2a$10$URTy2dbSE09TF3fAFL2myOcKxEtLdklh6g7hRVcmkAoZMmtOZE/C2',2);
