@@ -23,6 +23,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(isTokenValid);
     }
 
+    /*@CrossOrigin*/
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid final AuthenticationRequest requestAuthentication) {
         return ResponseEntity.ok(userFacade.login(requestAuthentication));
@@ -40,7 +41,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<LogoutResponse> logout(HttpServletRequest  request) {
+    public ResponseEntity<LogoutResponse> logout(HttpServletRequest request) {
         return ResponseEntity.ok(userFacade.logout(request));
     }
 }

@@ -3,10 +3,12 @@ package masterspringsecurity.config.security.authorization;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import masterspringsecurity.common.exception.ObjectNotFoundException;
+import masterspringsecurity.domain.entity.PublicOperationEntity;
 import masterspringsecurity.domain.entity.security.GrantedPermissionEntity;
 import masterspringsecurity.domain.entity.security.OperationEntity;
 import masterspringsecurity.domain.entity.security.UserEntity;
 import masterspringsecurity.persistence.security.OperationRepository;
+import masterspringsecurity.persistence.security.PublicOperationRepository;
 import masterspringsecurity.persistence.security.UserRepository;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
     private final OperationRepository operationRepository;
+    private final PublicOperationRepository publicOperationRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -87,13 +90,27 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
 
     private boolean isPublic(String url,
                              String httpMethod) {
-        List<OperationEntity> publicAccessEndpoints = operationRepository.findByPermitAllTrue();
+        List<PublicOperationEntity> publicOperationEntities = publicOperationRepository.findAll();
+        System.out.println("publicOperationEntities = " + publicOperationEntities);
+
         boolean isPublic =
-                publicAccessEndpoints.stream()
-                                     .anyMatch(getOperationEntityPredicate(url,
-                                                                           httpMethod));
+                publicOperationEntities.stream()
+                                       .anyMatch(getPublicOperationEntityPredicate(url,
+                                                                                   httpMethod));
         System.out.println("isPublic " + isPublic);
         return isPublic;
+    }
+
+    private static Predicate<PublicOperationEntity> getPublicOperationEntityPredicate(String url,
+                                                                                      String httpMethod) {
+        return operation -> {
+            String basePath = operation.getModule()
+                                       .getBasePath();
+            Pattern pattern = Pattern.compile(basePath.concat(operation.getPath()));
+            Matcher matcher = pattern.matcher(url);
+
+            return matcher.matches() && httpMethod.equals(operation.getHttpMethod());
+        };
     }
 
     private String extractUrl(HttpServletRequest request) {

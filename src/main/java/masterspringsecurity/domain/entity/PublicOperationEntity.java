@@ -1,7 +1,8 @@
-package masterspringsecurity.domain.entity.security;
+package masterspringsecurity.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import masterspringsecurity.domain.entity.security.ModuleEntity;
 
 @Builder
 @AllArgsConstructor
@@ -10,8 +11,8 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "operations")
-public class OperationEntity {
+@Table(name = "public_operations")
+public class PublicOperationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",

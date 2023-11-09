@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/*@CrossOrigin*/
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -57,34 +58,4 @@ public class ProductController {
     public ResponseEntity<ProductDto> disableOneById(@PathVariable Long productId) {
         return ResponseEntity.ok(productFacade.disableOneById(productId));
     }
-
-    /*@ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGenericException(Exception e,
-                                                                      HttpServletRequest request) {
-        Map<String, String> apiError = new HashMap<>();
-        apiError.put("message",
-                     e.getLocalizedMessage());
-        apiError.put("timestamp",
-                     new Date().toString());
-        apiError.put("path",
-                     request.getRequestURI());
-        apiError.put("http-method",
-                     request.getMethod());
-
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        if (e instanceof AccessDeniedException) {
-            status = HttpStatus.FORBIDDEN;
-        }
-
-        apiError.put("status",
-                     status.toString());
-        apiError.put("error",
-                     e.getClass()
-                      .getSimpleName());
-
-        return ResponseEntity.status(status)
-                             .body(apiError);
-
-    }*/
 }
