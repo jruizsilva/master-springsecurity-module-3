@@ -62,8 +62,8 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         return isGranted;
     }
 
-    private static Predicate<OperationEntity> getOperationEntityPredicate(String url,
-                                                                          String httpMethod) {
+    private Predicate<OperationEntity> getOperationEntityPredicate(String url,
+                                                                   String httpMethod) {
         return operation -> {
             String basePath = operation.getModule()
                                        .getBasePath();
@@ -101,8 +101,8 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         return isPublic;
     }
 
-    private static Predicate<PublicOperationEntity> getPublicOperationEntityPredicate(String url,
-                                                                                      String httpMethod) {
+    private Predicate<PublicOperationEntity> getPublicOperationEntityPredicate(String url,
+                                                                               String httpMethod) {
         return operation -> {
             String basePath = operation.getModule()
                                        .getBasePath();
