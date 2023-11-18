@@ -46,8 +46,10 @@ public class HttpSecurityConfig {
             httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
         });
         http.authorizeHttpRequests(authReqConfig -> {
-            authReqConfig.anyRequest()
+           authReqConfig.anyRequest()
                          .access(authorizationManager);
+           /* authReqConfig.anyRequest()
+                         .permitAll();*/
         });
         http.addFilterBefore(jwtAuthenticationFilter,
                              UsernamePasswordAuthenticationFilter.class);

@@ -5,6 +5,8 @@ INSERT INTO modules (name, base_path) VALUES ('CUSTOMER', '/customers');
 INSERT INTO modules (name, base_path) VALUES ('AUTH', '/auth');
 INSERT INTO modules (name, base_path) VALUES ('GRANTED_PERMISSION', '/granted-permissions');
 INSERT INTO modules (name, base_path) VALUES ('H2', '/h2-ui');
+INSERT INTO modules (name, base_path) VALUES ('SWAGGER_UI', '/swagger-ui');
+INSERT INTO modules (name, base_path) VALUES ('SWAGGER_DOCS', '/v3/api-docs');
 -- CREACION DE OPERACIONES PUBLICAS
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('REGISTER_ONE','', 'POST', 3);
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('AUTHENTICATE','/login', 'POST', 4);
@@ -12,6 +14,8 @@ INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('LOGO
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', 4);
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('H2_CONSOLE_ACCESS','[/\w.?&=]*','GET', 6);
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('H2_TEST_CONNECTION','[/\w.?&=]*','POST', 6);
+INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('SWAGGER_UI','[/\w.?&-=]*','GET', 7);
+INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('SWAGGER_DOCS','[/\w.?&-=]*','GET', 8);
 
 -- CREACION DE AUTH OPERACIONES
 INSERT INTO operations (name, path, http_method, module_id) VALUES ('READ_ALL_PRODUCTS','', 'GET', 1);
