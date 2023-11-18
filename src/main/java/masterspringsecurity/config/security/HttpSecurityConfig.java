@@ -43,7 +43,7 @@ public class HttpSecurityConfig {
         http.sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider);
         http.headers(httpSecurityHeadersConfigurer -> {
-            httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);
+            httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
         });
         http.authorizeHttpRequests(authReqConfig -> {
             authReqConfig.anyRequest()
