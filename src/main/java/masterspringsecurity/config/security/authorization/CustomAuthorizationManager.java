@@ -58,7 +58,6 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         boolean isGranted = operationEntityList.stream()
                                                .anyMatch(getOperationEntityPredicate(url,
                                                                                      httpMethod));
-        System.out.println(isGranted);
         return isGranted;
     }
 
@@ -91,14 +90,10 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
     private boolean isPublic(String url,
                              String httpMethod) {
         List<PublicOperationEntity> publicOperationEntities = publicOperationRepository.findAll();
-        System.out.println("publicOperationEntities = " + publicOperationEntities);
 
-        boolean isPublic =
-                publicOperationEntities.stream()
-                                       .anyMatch(getPublicOperationEntityPredicate(url,
-                                                                                   httpMethod));
-        System.out.println("isPublic " + isPublic);
-        return isPublic;
+        return publicOperationEntities.stream()
+                                      .anyMatch(getPublicOperationEntityPredicate(url,
+                                                                                  httpMethod));
     }
 
     private Predicate<PublicOperationEntity> getPublicOperationEntityPredicate(String url,

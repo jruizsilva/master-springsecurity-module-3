@@ -11,6 +11,7 @@ INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('AUTH
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('LOGOUT','/logout','POST', 4);
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('VALIDATE-TOKEN','/validate-token', 'GET', 4);
 INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('H2_CONSOLE_ACCESS','[/\w.?&=]*','GET', 6);
+INSERT INTO public_operations (name, path, http_method, module_id) VALUES ('H2_TEST_CONNECTION','[/\w.?&=]*','POST', 6);
 
 -- CREACION DE AUTH OPERACIONES
 INSERT INTO operations (name, path, http_method, module_id) VALUES ('READ_ALL_PRODUCTS','', 'GET', 1);
