@@ -7,6 +7,7 @@ import masterspringsecurity.config.security.handler.CustomAccessDeniedHandler;
 import masterspringsecurity.config.security.handler.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -46,7 +47,7 @@ public class HttpSecurityConfig {
             httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
         });
         http.authorizeHttpRequests(authReqConfig -> {
-           authReqConfig.anyRequest()
+            authReqConfig.anyRequest()
                          .access(authorizationManager);
            /* authReqConfig.anyRequest()
                          .permitAll();*/
@@ -60,8 +61,24 @@ public class HttpSecurityConfig {
         return http.build();
     }
 
+    @Profile("docker")
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource dockerCorsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://client"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",
+                                         configuration);
+        return source;
+    }
+
+    @Profile({"local", "dev"})
+    @Bean
+    CorsConfigurationSource defaultCorsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://127.0.0.1:5500"));
         configuration.setAllowedMethods(List.of("*"));

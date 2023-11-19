@@ -20,5 +20,13 @@ services:
     depends_on:
       - db
 
+  client:
+    image: my-client-app:v1
+    ports:
+      - "8100:8080"
+    container_name: my-client-app-container
+    depends_on:
+      - my-app
+
 volumes:
   postgres-volume:
