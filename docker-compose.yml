@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: masterspringsecuritydockercompose
+    container_name: my-postgres-docker-compose
+    volumes:
+      - postgres-volume:/var/lib/mysql
+
+  my-app:
+    build: .
+    image: my-app:v1.2
+    ports:
+      - "8090:8090"
+    container_name: my-app-docker-compose
+    depends_on:
+      - db
+
+volumes:
+  postgres-volume:
